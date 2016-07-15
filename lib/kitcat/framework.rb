@@ -2,6 +2,7 @@ require 'ruby-progressbar'
 require 'active_model'
 require 'active_support/core_ext'
 require 'kitcat/logging'
+require 'kitcat/reporter'
 
 module Kitcat
   class Framework
@@ -45,6 +46,7 @@ module Kitcat
       @last_item_processed        = nil
       @progress_bar               = initialize_progress_bar(progress_bar, progress_bar_output)
       @logging                    = Kitcat::Logging.new(migration_strategy, migration_name)
+      @reporter                   = Kitcat::Reporter.new
     end
 
     def execute
@@ -73,6 +75,10 @@ module Kitcat
     def progress
       return -1 unless progress_bar?
       @progress_bar.progress
+    end
+
+    def report
+      reporter
     end
 
     private
