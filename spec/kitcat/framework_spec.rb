@@ -64,6 +64,10 @@ describe Kitcat::Framework do
         #
         def interrupt_callback; end
 
+        def report_item(item)
+          item.to_s
+        end
+
         private
 
         # need to implement in order to support framework
@@ -465,6 +469,17 @@ describe Kitcat::Framework do
         allow(progress_bar).to receive(:progress).and_return(progress_result)
 
         expect(subject.progress).to eq(progress_result)
+      end
+    end
+
+    describe '#report' do
+
+      context 'when strategy includes a report method' do
+        let(:number_of_items_to_process) { 1 }
+        it 'creates a reporter' do
+          expect(Kitcat::Reporter).to receive(:report_item).with(1)
+          subject.report
+        end
       end
     end
   end
